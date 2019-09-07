@@ -1,0 +1,1 @@
+2019/09/07 16:41:59 [error] 10916#0: *1 open() "/home/hejohns/documentsNoSync/food/nginx/local/html/favicon.ico" failed (2: No such file or directory), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
