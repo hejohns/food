@@ -1,0 +1,5 @@
+/*
+somehow this would be a shell script installer
+which places the food.service unit file in the correct directory
+but idk how to do that currently.
+*/
