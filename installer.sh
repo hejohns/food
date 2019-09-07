@@ -1,5 +1,16 @@
-/*
-somehow this would be a shell script installer
-which places the food.service unit file in the correct directory
-but idk how to do that currently.
-*/
+#!bin/bash
+#make foo
+make clean
+make
+foodprefix=$(dirname "$(readlink -f "$0")")
+cd $foodprefix/nginx
+${foodprefix}/nginx/configure --prefix=${foodprefix}/nginx/local --without-http_rewrite_module --without-http_gzip_module
+#make nginx
+cd $foodprefix/nginx
+make clean
+cd $foodprefix/nginx
+${foodprefix}/nginx/configure --prefix=${foodprefix}/nginx/local --without-http_rewrite_module --without-http_gzip_module
+cd $foodprefix/nginx
+make 
+cd $foodprefix/nginx
+make install
