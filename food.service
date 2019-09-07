@@ -1,0 +1,10 @@
+[Unit]
+Description=My first attempt at a systemd service
+
+[Service]
+Type=forking
+ExecStart=/home/hejohns/documentsNoSync/food/foo 60
+Nice=0
+
+[Install]
+WantedBy=multi-user.target
