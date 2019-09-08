@@ -17,6 +17,15 @@ clean :
 '> makefile
 #make foo
 make
+#make nginx
+cd $foodprefix/nginx
+${foodprefix}/nginx/configure --prefix=${foodprefix}/nginx/local --without-http_rewrite_module --without-http_gzip_module
+make 
+make install
+#modify default nginx files
+cd $foodprefix
+rm $foodprefix/nginx/local/conf/nginx/conf/nginx.conf
+ln -s nginx.conf $foodprefix/nginx/local/conf/nginx/conf
 #install foo.service unit
 echo '[Unit]
 Description=My first attempt at a systemd service
@@ -30,8 +39,4 @@ Nice=0
 WantedBy=multi-user.target' > food.service
 
 mv food.service ${systemd_unit_directory}food.service
-#make nginx
-cd $foodprefix/nginx
-${foodprefix}/nginx/configure --prefix=${foodprefix}/nginx/local --without-http_rewrite_module --without-http_gzip_module
-make 
-make install
+
