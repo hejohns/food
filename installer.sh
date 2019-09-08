@@ -24,8 +24,8 @@ make
 make install
 #modify default nginx files
 cd $foodprefix
-rm $foodprefix/nginx/local/conf/nginx/conf/nginx.conf
-ln -s nginx.conf $foodprefix/nginx/local/conf/nginx/conf
+rm $foodprefix/nginx/local/conf/nginx.conf
+cp nginx.default.conf $foodprefix/nginx/local/conf/nginx.conf
 #install foo.service unit
 echo '[Unit]
 Description=My first attempt at a systemd service
