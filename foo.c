@@ -35,16 +35,16 @@ int main(int argc, char **argv)
 		}
 		else if (forkreturn2 == 0)
 		{
-			for(int i=0; i<120; i++)
-			{
-				sleep(1);
-			}
-			return 0;
+			//keep parent in waiting state
+eternal_sleep:
+			sleep(60);
+goto eternal_sleep;
+			return 1;
 		}
 		else
 		{
-			waitpid(forkreturn2, NULL, WNOHANG);
 			waitpid(forkreturn1, NULL, WNOHANG);
+			waitpid(forkreturn2, NULL, WNOHANG);
 			return 0;
 		}
 	}
