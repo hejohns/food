@@ -1,16 +1,37 @@
 #!bin/bash
-#make foo
-make clean
-make
+#required to force script cd
 foodprefix=$(dirname "$(readlink -f "$0")")
-cd $foodprefix/nginx
-${foodprefix}/nginx/configure --prefix=${foodprefix}/nginx/local --without-http_rewrite_module --without-http_gzip_module
+source configuration
+#wget and unpack nginx
+wget http://nginx.org/download/$nginx_version
+gzip -d $nginx_version
+tar -xf ${nginx_version%.gz}
+mv ${nginx_version%.tar.gz} nginx
+rm -rf ${nginx_version%.gz}
+#create makefile
+echo 'foo : foo.c
+	gcc -o foo foo.c
+
+clean : 
+	rm foo
+'> makefile
+#make foo
+make
+#install foo.service unit
+echo '[Unit]
+Description=My first attempt at a systemd service
+
+[Service]
+Type=forking
+ExecStart='$foodprefix'/foo '$foodprefix'
+Nice=0
+
+[Install]
+WantedBy=multi-user.target' > food.service
+
+mv food.service ${systemd_unit_directory}food.service
 #make nginx
 cd $foodprefix/nginx
-make clean
-cd $foodprefix/nginx
 ${foodprefix}/nginx/configure --prefix=${foodprefix}/nginx/local --without-http_rewrite_module --without-http_gzip_module
-cd $foodprefix/nginx
 make 
-cd $foodprefix/nginx
 make install

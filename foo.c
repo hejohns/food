@@ -1,25 +1,34 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <limits.h>
+#include <string.h>
+#include <sys/wait.h>
 
 int main(int argc, char **argv)
 {
-int counter = argv[0][0];
-int forkreturn = fork();
-if (forkreturn < 0)
-{
-	return 1;
-}
-else  if (forkreturn == 0)
-{
-	for(;counter<120;counter++)
+	//set path to directory
+	char foodprefix[PATH_MAX];
+	for(int i=0; argv[1][i] != (char) 0;i++)
 	{
-	sleep(1);
+		foodprefix[i]=argv[1][i];
 	}
-	printf("%d: %d\n", getpid(), counter);
-	return 0;
-}
-else
-{
-	return 0;
-}
+	//start nginx as child
+	int forkreturn = fork();
+	if (forkreturn < 0)
+	{
+		return 1;
+	}
+	else  if (forkreturn == 0)
+	{
+		strcat(foodprefix, "/nginx/local/sbin/nginx");
+		char *path_to_sbin_nginx = foodprefix;
+		printf("%s\n", path_to_sbin_nginx);
+		execl(path_to_sbin_nginx, path_to_sbin_nginx, (char *)0);
+	}
+	else
+	{
+		wait(NULL);
+		return 0;
+	}
+	
 }
