@@ -4,6 +4,12 @@
 #include <string.h>
 #include <sys/wait.h>
 
+#define parent_endgame \
+waitpid(forkreturn1, NULL, WNOHANG);\
+waitpid(forkreturn2, NULL, WNOHANG);\
+waitpid(forkreturn3, NULL, WNOHANG);\
+return 0;
+
 int main(int argc, char **argv)
 {
 	//set path to directory
@@ -43,9 +49,20 @@ goto eternal_sleep;
 		}
 		else
 		{
-			waitpid(forkreturn1, NULL, WNOHANG);
-			waitpid(forkreturn2, NULL, WNOHANG);
-			return 0;
+			int forkreturn3 = fork();
+			if (forkreturn3 < 0)
+			{
+				return 1;
+			}
+			else if (forkreturn3 == 0)
+			{
+				//useful child
+				return 0;
+			}
+			else
+			{
+				parent_endgame
+			}
 		}
 	}
 	
