@@ -11,9 +11,11 @@ rm -rf ${nginx_version%.gz}
 #create makefile
 echo 'foo : foo.c
 	gcc -o foo foo.c
+string_length : string_length.c
+	gcc -o string_length string_length.c
 
 clean : 
-	rm foo
+	rm foo string_length
 '> makefile
 #make foo
 make

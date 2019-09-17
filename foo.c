@@ -1,3 +1,5 @@
+//launches nginx and stays alive
+
 #include <stdio.h>
 #include <unistd.h>
 #include <limits.h>
@@ -49,21 +51,8 @@ goto eternal_sleep;
 		}
 		else
 		{
-			int forkreturn3 = fork();
-			if (forkreturn3 < 0)
-			{
-				return 1;
-			}
-			else if (forkreturn3 == 0)
-			{
-				//useful child
-				return 0;
-			}
-			else
-			{
-				parent_endgame
-			}
+			parent_endgame
 		}
 	}
-	
+return 1;	
 }
