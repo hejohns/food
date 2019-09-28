@@ -94,4 +94,3 @@ spawn-protection=16
 online-mode=false
 allow-flight=false
 max-world-size=29999984'>server.properties
-java -Xms$minecraft_server_ram_min -Xmx$minecraft_server_ram_max -jar server.jar nogui
