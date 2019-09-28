@@ -41,9 +41,9 @@ int main(int argc, char **argv)
 {
 	//set path to directory
 	char foodprefix[PATH_MAX];
-	for(int i=0; argv[1][i] != (char) 0; i++)
+	for(int i=0; argv[3][i] != (char) 0; i++)
 	{
-		foodprefix[i]=argv[1][i];
+		foodprefix[i]=argv[3][i];
 	}
 	//fork first child
 	int forkreturn1 = fork();
@@ -69,14 +69,14 @@ int main(int argc, char **argv)
 			darray minecraft_server_ram_max;
 			initializeDarray(minecraft_server_ram_min);
 			initializeDarray(minecraft_server_ram_max);
-			for(int i=0; argv[2][i] != (char) 0; i++)
+			for(int i=0; argv[4][i] != (char) 0; i++)
 			{
-				minecraft_server_ram_min.pointer[i] = argv[2][i];
+				minecraft_server_ram_min.pointer[i] = argv[4][i];
 				reallocDarray(minecraft_server_ram_min, minecraft_server_ram_min.size + 1);
 			}
-			for(int i=0; argv[3][i] != (char) 0; i++)
+			for(int i=0; argv[5][i] != (char) 0; i++)
 			{
-				minecraft_server_ram_max.pointer[i] = argv[3][i];
+				minecraft_server_ram_max.pointer[i] = argv[5][i];
 				reallocDarray(minecraft_server_ram_max, minecraft_server_ram_max.size + 1);
 			}
 			reallocDarray(minecraft_server_ram_min, minecraft_server_ram_min.size + 4);
