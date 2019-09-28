@@ -123,22 +123,21 @@ int main(int argc, char **argv)
 			darray* xmx = &Xmx_max;
 			initializeDarray(xms);
 			initializeDarray(xmx);
-			reallocDarray(xms, 5+ramMin->size);
-			reallocDarray(xmx, 5+ramMax->size);
-			strcat(xms->pointer, "-Xms");
-			strcat(xmx->pointer, "-Xmx");
-			PRINTF("$14: %ld-%ld\n", (long int)xms->pointer, xms->size);
-			PRINTF("$15: %ld-%ld\n", (long int)xmx->pointer, xmx->size);
-			PRINTF("$16: %ld-%ld\n", (long int)ramMin->pointer, ramMin->size);
-			PRINTF("$17: %ld-%ld\n", (long int)ramMax->pointer, ramMax->size);
-			snprintf(xms->pointer, xms->size, "%s%s", xms->pointer, ramMin->pointer);
-			snprintf(xmx->pointer, xmx->size, "%s%s", xmx->pointer, ramMax->pointer);
+			reallocDarray(xms, 4+ramMin->size);
+			reallocDarray(xmx, 4+ramMax->size);
+			PRINTF("$14: %ld-%s-%ld\n", (long int)xms->pointer, xms->pointer, xms->size);
+			PRINTF("$15: %ld-%s-%ld\n", (long int)xmx->pointer, xms->pointer, xmx->size);
+			PRINTF("$16: %ld-%s-%ld\n", (long int)ramMin->pointer, ramMin->pointer, ramMin->size);
+			PRINTF("$17: %ld-%s-%ld\n", (long int)ramMax->pointer, ramMax->pointer, ramMax->size);
+			snprintf(xms->pointer, xms->size, "%s%s", "-Xms", ramMin->pointer);
+			snprintf(xmx->pointer, xmx->size, "%s%s", "-Xmx", ramMax->pointer);
 			PRINTF("$18: %s\n", xms->pointer);
 			PRINTF("$19: %s\n", xmx->pointer);
 			//exec server.jar
 			strcat(foodprefix, "minecraft/server.jar");
 			char* path_to_minecraft_server_jar = foodprefix;
 			PRINTF("$21: %s, %s, %s\n", xms->pointer, xmx->pointer, path_to_minecraft_server_jar);
+			exit(0);
 			execl("/usr/bin/java", "/usr/bin/java", xms->pointer, xmx->pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
 		}
 		else
