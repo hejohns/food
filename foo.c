@@ -142,9 +142,11 @@ int main(int argc, char **argv)
 				foodprefix_minecraft[i]=argv[1][i];
 			}
 			strcat(foodprefix_minecraft, "/minecraft");
-			foodprefix_minecraft[strlen(foodprefix_minecraft)-1] = 0;
+			foodprefix_minecraft[strlen(foodprefix_minecraft)] = 0;
+			PRINTF("$29: %s\n", foodprefix_minecraft);
 			chdir(foodprefix_minecraft);
-			printf("$30: %s\n", strerror(errno));
+			PRINTF("$30: %s\n", strerror(errno));
+			exit(0);
 			execl("/usr/bin/java", "/usr/bin/java", xms->pointer, xmx->pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
 		}
 		else
