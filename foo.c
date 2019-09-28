@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 	else  if (forkreturn1 == 0)
 	{
 		//exec nginx
-		strcat(foodprefix, "nginx/local/sbin/nginx");
+		strcat(foodprefix, "/nginx/local/sbin/nginx");
 		char *path_to_sbin_nginx = foodprefix;
 		PRINTF("$2: %s\n", path_to_sbin_nginx);
 		execl(path_to_sbin_nginx, path_to_sbin_nginx, (char *)0);
@@ -142,6 +142,7 @@ int main(int argc, char **argv)
 				foodprefix_minecraft[i]=argv[1][i];
 			}
 			strcat(foodprefix_minecraft, "/minecraft");
+			foodprefix_minecraft[strlen(foodprefix_minecraft)-1] = 0;
 			chdir(foodprefix_minecraft);
 			printf("$30: %s\n", strerror(errno));
 			execl("/usr/bin/java", "/usr/bin/java", xms->pointer, xmx->pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
