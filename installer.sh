@@ -2,6 +2,7 @@
 #required to force script cd
 foodprefix=$(dirname "$(readlink -f "$0")")
 source configuration
+cd $foodprefix
 #wget and unpack nginx
 wget http://nginx.org/download/$nginx_version
 gzip -d $nginx_version
