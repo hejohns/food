@@ -151,7 +151,6 @@ int main(int argc, char **argv)
 			PRINTF("$29: %s\n", foodprefix_minecraft);
 			chdir(foodprefix_minecraft);
 			PRINTF("$30: %s\n", strerror(errno));
-			exit(0);
 			execl("/usr/bin/java", "/usr/bin/java", xms->pointer, xmx->pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
 		}
 		else
