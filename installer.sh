@@ -35,7 +35,7 @@ Description=minecraft server (+nginx?)
 
 [Service]
 Type=forking
-ExecStart='$foodprefix'/foo '$foodprefix' $minecraft_server_ram_min $minecraft_server_ram_max
+ExecStart='$foodprefix'/foo '$foodprefix' '$minecraft_server_ram_min' '$minecraft_server_ram_max'
 Nice=0
 
 [Install]
