@@ -34,7 +34,7 @@ Description=My first attempt at a systemd service
 
 [Service]
 Type=forking
-ExecStart='$foodprefix'/foo '$foodprefix'
+ExecStart='$foodprefix'/foo '$foodprefix' $minecraft_server_ram_min $minecraft_server_ram_max
 Nice=0
 
 [Install]
@@ -44,6 +44,8 @@ mv food.service ${systemd_unit_directory}food.service
 
 #wget minecraft server
 cd $foodprefix
+mkdir minecraft
+cd $foodprefix/minecraft
 wget $minecraft_server_jar_uri
 java -Xms$minecraft_server_ram_min -Xmx$minecraft_server_ram_max -jar minecraft_server.$minecraft_server_version.jar nogui
 echo 'eula=true'>eula.txt
