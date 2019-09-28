@@ -31,7 +31,7 @@ rm $foodprefix/nginx/local/conf/nginx.conf
 cp nginx.default.conf $foodprefix/nginx/local/conf/nginx.conf
 #install foo.service unit
 echo '[Unit]
-Description=My first attempt at a systemd service
+Description=minecraft server (+nginx?)
 
 [Service]
 Type=forking
