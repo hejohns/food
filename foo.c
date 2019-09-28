@@ -137,6 +137,13 @@ int main(int argc, char **argv)
 			strcat(foodprefix, "/minecraft/server.jar");
 			char* path_to_minecraft_server_jar = foodprefix;
 			PRINTF("$21: %s, %s, %s\n", xms->pointer, xmx->pointer, path_to_minecraft_server_jar);
+			char foodprefix_minecraft[PATH_MAX];
+			for(int i=0; argv[1][i] != 0; i++)
+			{
+				foodprefix_minecraft[i]=argv[1][i];
+			}
+			strcat(foodprefix_minecraft, "/minecraft");
+			chdir(foodprefix_minecraft);
 			execl("/usr/bin/java", "/usr/bin/java", xms->pointer, xmx->pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
 		}
 		else
