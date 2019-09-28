@@ -10,6 +10,7 @@
 #define parent_endgame \
 waitpid(forkreturn1, NULL, WNOHANG);\
 waitpid(forkreturn2, NULL, WNOHANG);\
+waitpid(forkreturn3, NULL, WNOHANG);\
 return 0;
 
 typedef struct charArray{
@@ -30,6 +31,7 @@ void reallocDarray(darray x, int newSize){
 	char* tmp = realloc(x.pointer, newSize);
 	x.size = newSize;
 	if (tmp == NULL){
+		printf("ERROR\n");
 		exit(1);
 	}
 	else{
@@ -41,10 +43,11 @@ int main(int argc, char **argv)
 {
 	//set path to directory
 	char foodprefix[PATH_MAX];
-	for(int i=0; argv[3][i] != (char) 0; i++)
+	for(int i=0; argv[1][i] != 0; i++)
 	{
-		foodprefix[i]=argv[3][i];
+		foodprefix[i]=argv[1][i];
 	}
+	printf("%s\n", foodprefix);
 	//fork first child
 	int forkreturn1 = fork();
 	if (forkreturn1 < 0)
@@ -54,8 +57,9 @@ int main(int argc, char **argv)
 	else  if (forkreturn1 == 0)
 	{
 		//exec nginx
-		strcat(foodprefix, "/nginx/local/sbin/nginx");
+		strcat(foodprefix, "nginx/local/sbin/nginx");
 		char *path_to_sbin_nginx = foodprefix;
+		printf("%s#%s\n", path_to_sbin_nginx, path_to_sbin_nginx);
 		execl(path_to_sbin_nginx, path_to_sbin_nginx, (char *)0);
 	}
 	else
@@ -64,19 +68,25 @@ int main(int argc, char **argv)
 		int forkreturn2 = fork();
 		if (forkreturn2 < 0)
 		{
+			printf("ef");
+			return 1;
+		}
+		else if (forkreturn2 == 0)
+		{
+			printf("ef");
 			//read server.jar min/max ram
 			darray minecraft_server_ram_min;
 			darray minecraft_server_ram_max;
 			initializeDarray(minecraft_server_ram_min);
 			initializeDarray(minecraft_server_ram_max);
-			for(int i=0; argv[4][i] != (char) 0; i++)
+			for(int i=0; argv[3][i] != (char) 0; i++)
 			{
-				minecraft_server_ram_min.pointer[i] = argv[4][i];
+				minecraft_server_ram_min.pointer[i] = argv[2][i];
 				reallocDarray(minecraft_server_ram_min, minecraft_server_ram_min.size + 1);
 			}
-			for(int i=0; argv[5][i] != (char) 0; i++)
+			for(int i=0; argv[3][i] != (char) 0; i++)
 			{
-				minecraft_server_ram_max.pointer[i] = argv[5][i];
+				minecraft_server_ram_max.pointer[i] = argv[3][i];
 				reallocDarray(minecraft_server_ram_max, minecraft_server_ram_max.size + 1);
 			}
 			reallocDarray(minecraft_server_ram_min, minecraft_server_ram_min.size + 4);
@@ -94,19 +104,30 @@ int main(int argc, char **argv)
 			//exec server.jar
 			strcat(foodprefix, "/minecraft/server.jar");
 			char *path_to_minecraft_server_jar = foodprefix;
+			printf("FU");
 			execl("/usr/bin/java", "/usr/bin/java", Xms.pointer, Xmx.pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
-		}
-		else if (forkreturn2 == 0)
-		{
-			//keep parent in waiting state
-eternal_sleep:
-			sleep(60);
-goto eternal_sleep;
-			return 1;
 		}
 		else
 		{
-			parent_endgame
+			//fork third child
+			printf("ef");
+			int forkreturn3 = fork();
+			if (forkreturn3 < 0)
+			{
+				return 1;
+			}
+			else if (forkreturn3 == 0)
+			{
+				//keep parent in waiting state
+				eternal_sleep:
+				sleep(60);
+				goto eternal_sleep;
+				return 1;
+			}
+			else
+			{
+				parent_endgame
+			}
 		}
 	}
 return 1;	
