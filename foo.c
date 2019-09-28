@@ -1,5 +1,4 @@
-//launches nginx and stays alive
-
+#include <errno.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -144,6 +143,7 @@ int main(int argc, char **argv)
 			}
 			strcat(foodprefix_minecraft, "/minecraft");
 			chdir(foodprefix_minecraft);
+			printf("$30: %s\n", strerror(errno));
 			execl("/usr/bin/java", "/usr/bin/java", xms->pointer, xmx->pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
 		}
 		else
