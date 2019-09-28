@@ -7,35 +7,58 @@
 #include <string.h>
 #include <sys/wait.h>
 
-#define parent_endgame \
+#define PARENT_ENDGAME \
 waitpid(forkreturn1, NULL, WNOHANG);\
 waitpid(forkreturn2, NULL, WNOHANG);\
 waitpid(forkreturn3, NULL, WNOHANG);\
 return 0;
+
+/*
+ * DEBUG
+ * 0-false
+ * !0-true
+ */
+
+#define DEBUG 1 
+#if DEBUG
+#define PRINTF printf
+#else
+#define PRINTF //printf
+#endif
 
 typedef struct charArray{
 	char* pointer;
 	size_t size;
 }darray;
 
-void initializeDarray(darray x);
+void initializeDarray(darray* x);
 
-void initializeDarray(darray x){
-	x.pointer = malloc(1);
-	x.size = 1;
+void initializeDarray(darray* x){
+	x->pointer = malloc(1);
+	x->size = 1;
+	if (x->pointer == (char *)0)
+	{
+		PRINTF("initializeDarray failed\n");
+		exit(1);
+	}
+	else
+	{
+		PRINTF("initializeDarray success: %ld\n", (long int)x->pointer);
+	}
 }
 
-void reallocDarray(darray x, int newSize);
+void reallocDarray(darray* x, int newSize);
 
-void reallocDarray(darray x, int newSize){
-	char* tmp = realloc(x.pointer, newSize);
-	x.size = newSize;
+void reallocDarray(darray* x, int newSize){
+	char* tmp = realloc(x->pointer, newSize);
+	x->size = newSize;
 	if (tmp == NULL){
-		printf("ERROR\n");
+		PRINTF("ERROR\n");
 		exit(1);
 	}
 	else{
-		x.pointer = tmp;
+		PRINTF("reallocDarray success: %ld-%ld\n", (long int)x->pointer, x->size);
+		x->pointer = tmp;
 	}
 }
 
@@ -47,7 +70,7 @@ int main(int argc, char **argv)
 	{
 		foodprefix[i]=argv[1][i];
 	}
-	printf("%s\n", foodprefix);
+	PRINTF("$1: %s\n", foodprefix);
 	//fork first child
 	int forkreturn1 = fork();
 	if (forkreturn1 < 0)
@@ -59,7 +82,7 @@ int main(int argc, char **argv)
 		//exec nginx
 		strcat(foodprefix, "nginx/local/sbin/nginx");
 		char *path_to_sbin_nginx = foodprefix;
-		printf("%s#%s\n", path_to_sbin_nginx, path_to_sbin_nginx);
+		PRINTF("$2: %s\n", path_to_sbin_nginx);
 		execl(path_to_sbin_nginx, path_to_sbin_nginx, (char *)0);
 	}
 	else
@@ -68,52 +91,63 @@ int main(int argc, char **argv)
 		int forkreturn2 = fork();
 		if (forkreturn2 < 0)
 		{
-			printf("ef");
+			PRINTF("$3: fork2 failed\n");
 			return 1;
 		}
 		else if (forkreturn2 == 0)
 		{
-			printf("ef");
 			//read server.jar min/max ram
 			darray minecraft_server_ram_min;
 			darray minecraft_server_ram_max;
-			initializeDarray(minecraft_server_ram_min);
-			initializeDarray(minecraft_server_ram_max);
+			darray* ramMin = &minecraft_server_ram_min;
+			darray* ramMax = &minecraft_server_ram_max;
+			initializeDarray(ramMin);
+			initializeDarray(ramMax);
+			//minecraft_server_ram_min.pointer[0] = 65;
+			PRINTF("$10: %ld\n", (long int)ramMin->size);
+			for(int i=0; argv[2][i] != (char) 0; i++)
+			{
+				ramMin->pointer[i] = argv[2][i];
+				reallocDarray(ramMin, (int)ramMin->size + 1);
+			}
+			PRINTF("$11: %s\n", ramMin->pointer);
 			for(int i=0; argv[3][i] != (char) 0; i++)
 			{
-				minecraft_server_ram_min.pointer[i] = argv[2][i];
-				reallocDarray(minecraft_server_ram_min, minecraft_server_ram_min.size + 1);
+				ramMax->pointer[i] = argv[3][i];
+				reallocDarray(ramMax, (int)ramMax->size + 1);
 			}
-			for(int i=0; argv[3][i] != (char) 0; i++)
-			{
-				minecraft_server_ram_max.pointer[i] = argv[3][i];
-				reallocDarray(minecraft_server_ram_max, minecraft_server_ram_max.size + 1);
-			}
-			reallocDarray(minecraft_server_ram_min, minecraft_server_ram_min.size + 4);
-			reallocDarray(minecraft_server_ram_max, minecraft_server_ram_max.size + 4);
-			darray Xms;
-			darray Xmx;
-			initializeDarray(Xms);
-			initializeDarray(Xmx);
-			reallocDarray(Xms, 4+minecraft_server_ram_min.size);
-			reallocDarray(Xmx, 4+minecraft_server_ram_max.size);
-			Xms.pointer = "-Xms";
-			Xmx.pointer = "-Xmx";
-			strcat(Xms.pointer, minecraft_server_ram_min.pointer);
-			strcat(Xmx.pointer, minecraft_server_ram_max.pointer);
+			PRINTF("$12: %s\n", ramMax->pointer);
+			darray Xms_min;
+			darray Xmx_max;
+			darray* xms = &Xms_min;
+			darray* xmx = &Xmx_max;
+			initializeDarray(xms);
+			initializeDarray(xmx);
+			reallocDarray(xms, 5+ramMin->size);
+			reallocDarray(xmx, 5+ramMax->size);
+			strcat(xms->pointer, "-Xms");
+			strcat(xmx->pointer, "-Xmx");
+			PRINTF("$14: %ld-%ld\n", (long int)xms->pointer, xms->size);
+			PRINTF("$15: %ld-%ld\n", (long int)xmx->pointer, xmx->size);
+			PRINTF("$16: %ld-%ld\n", (long int)ramMin->pointer, ramMin->size);
+			PRINTF("$17: %ld-%ld\n", (long int)ramMax->pointer, ramMax->size);
+			snprintf(xms->pointer, xms->size, "%s%s", xms->pointer, ramMin->pointer);
+			snprintf(xmx->pointer, xmx->size, "%s%s", xmx->pointer, ramMax->pointer);
+			PRINTF("$18: %s\n", xms->pointer);
+			PRINTF("$19: %s\n", xmx->pointer);
 			//exec server.jar
-			strcat(foodprefix, "/minecraft/server.jar");
-			char *path_to_minecraft_server_jar = foodprefix;
-			printf("FU");
-			execl("/usr/bin/java", "/usr/bin/java", Xms.pointer, Xmx.pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
+			strcat(foodprefix, "minecraft/server.jar");
+			char* path_to_minecraft_server_jar = foodprefix;
+			PRINTF("$21: %s, %s, %s\n", xms->pointer, xmx->pointer, path_to_minecraft_server_jar);
+			execl("/usr/bin/java", "/usr/bin/java", xms->pointer, xmx->pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
 		}
 		else
 		{
 			//fork third child
-			printf("ef");
 			int forkreturn3 = fork();
 			if (forkreturn3 < 0)
 			{
+				printf("fork3 failed\n");
 				return 1;
 			}
 			else if (forkreturn3 == 0)
@@ -126,7 +160,7 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-				parent_endgame
+				PARENT_ENDGAME
 			}
 		}
 	}
