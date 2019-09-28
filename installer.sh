@@ -7,7 +7,7 @@ cd $foodprefix
 wget http://nginx.org/download/$nginx_version
 gzip -d $nginx_version
 tar -xf ${nginx_version%.gz}
-mv ${nginx_version%.tar.gz} nginx
+mv ${foodprefix}${nginx_version%.tar.gz} ${foodprefix}nginx
 rm -rf ${nginx_version%.gz}
 #create makefile
 echo 'foo : foo.c
