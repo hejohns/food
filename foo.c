@@ -137,11 +137,16 @@ int main(int argc, char **argv)
 			char* path_to_minecraft_server_jar = foodprefix;
 			PRINTF("$21: %s, %s, %s\n", xms->pointer, xmx->pointer, path_to_minecraft_server_jar);
 			char foodprefix_minecraft[PATH_MAX];
+			int fplen = strlen(argv[1]);
 			for(int i=0; argv[1][i] != 0; i++)
 			{
 				foodprefix_minecraft[i]=argv[1][i];
 			}
-			strcat(foodprefix_minecraft, "/minecraft");
+			char fpmine[] = "/minecraft";
+			for(int i=0; i<strlen("/minecraft"); i++)
+			{
+				foodprefix_minecraft[fplen+i] = fpmine[i];
+			}
 			foodprefix_minecraft[strlen(foodprefix_minecraft)] = 0;
 			PRINTF("$29: %s\n", foodprefix_minecraft);
 			chdir(foodprefix_minecraft);
