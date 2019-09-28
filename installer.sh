@@ -3,7 +3,6 @@
 foodprefix=$(dirname "$(readlink -f "$0")")
 source configuration
 #wget and unpack nginx
-cd $foodprefix
 wget http://nginx.org/download/$nginx_version
 gzip -d $nginx_version
 tar -xf ${nginx_version%.gz}
