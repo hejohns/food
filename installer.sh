@@ -93,5 +93,5 @@ mv index.js $foodprefix/nodejs/index.js
 #Building nodejs takes a LONG time
 #make nodejs
 cd $foodprefix/nodejs
-${foodprefix}/nodejs/configure
+${foodprefix}/nodejs/configure --without-snapshot
 make -j4
