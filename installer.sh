@@ -20,9 +20,15 @@ clean :
 '> makefile
 #make foo
 make
+#wget and unpack pcre
+cd $foodprefix/nginx
+wget https://ftp.pcre.org/pub/pcre/$pcre_version
+gzip -d $pcre_version
+tar -xf ${pcre_version%.gz}
+mv ${pcre_version%.tar.gz} pcre
 #make nginx
 cd $foodprefix/nginx
-${foodprefix}/nginx/configure --prefix=${foodprefix}/nginx/local --without-http_rewrite_module --without-http_gzip_module
+${foodprefix}/nginx/configure --prefix=${foodprefix}/nginx/local --without-http_rewrite_module --without-http_gzip_module --with-pcre=${foodprefix}/nginx/pcre
 make 
 make install
 #modify default nginx files

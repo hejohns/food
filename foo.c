@@ -102,7 +102,6 @@ int main(int argc, char **argv)
 			darray* ramMax = &minecraft_server_ram_max;
 			initializeDarray(ramMin);
 			initializeDarray(ramMax);
-			//minecraft_server_ram_min.pointer[0] = 65;
 			PRINTF("$10: %ld\n", (long int)ramMin->size);
 			for(int i=0; argv[2][i] != (char) 0; i++)
 			{
@@ -151,6 +150,8 @@ int main(int argc, char **argv)
 			PRINTF("$29: %s\n", foodprefix_minecraft);
 			chdir(foodprefix_minecraft);
 			PRINTF("$30: %s\n", strerror(errno));
+			free(ramMin->pointer);
+			free(ramMax->pointer);
 			execl("/usr/bin/java", "/usr/bin/java", xms->pointer, xmx->pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
 		}
 		else

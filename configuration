@@ -1,5 +1,6 @@
 #Requires .tar.gz!
 nginx_version="nginx-1.17.3.tar.gz"
+pcre_version="pcre-8.43.tar.gz"
 ##
 systemd_unit_directory="/lib/systemd/system/"
 minecraft_server_jar_uri="https://launcher.mojang.com/v1/objects/3dc3d84a581f14691199cf6831b71ed1296a9fdf/server.jar"
