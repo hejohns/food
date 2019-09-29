@@ -14,12 +14,9 @@ clean :
 '> makefile
 #make foo
 make
-#wget and unpack nodejs
-wget $nodejs_uri$nodejs_version
-gzip -d $nodejs_version
-tar -xf ${nodejs_version%.gz}
-mv ${nodejs_version%.tar.gz} nodejs
-rm -rf ${nodejs_version%.gz}
+#git clone nodejs
+git clone https://github.com/nodejs/node.git
+mv node nodejs
 #install foo.service unit
 echo '[Unit]
 Description=minecraft server (+nodejs?)
@@ -94,4 +91,4 @@ mv index.js $foodprefix/nodejs/index.js
 #make nodejs
 cd $foodprefix/nodejs
 ${foodprefix}/nodejs/configure
-make -j4
+make -j24
