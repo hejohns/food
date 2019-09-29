@@ -4,6 +4,7 @@ Requires:
 	make
 	bash
 	python2.7
+	git
 
 Installation:
 	git clone <https://> OR wget <.zip>
