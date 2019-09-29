@@ -1,8 +1,10 @@
 /* Requires:
 	g++
 	java runtime environment 
+	make
 	bash
 */
+
 /* Installation:
 	git clone <https://> OR wget <.zip>
 	cd ./food
@@ -10,6 +12,7 @@
 	sudo systemctl daemon-reload
 	sudo systemctl enable food
 */
+
 /* Usage:
 	systemctl status food
 	systemctl restart food
