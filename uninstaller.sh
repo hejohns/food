@@ -1,2 +1,2 @@
 #!/bin/bash
-rm -rf nginx foo string_length makefile minecraft
+rm -rf nodejs foo string_length makefile minecraft
