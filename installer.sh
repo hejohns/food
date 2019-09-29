@@ -15,7 +15,7 @@ clean :
 #make foo
 make
 #wget and unpack nodejs
-wget https://nodejs.org/dist/v12.11.0/$nodejs_version
+wget $nodejs_uri$nodejs_version
 gzip -d $nodejs_version
 tar -xf ${nodejs_version%.gz}
 mv ${nodejs_version%.tar.gz} nodejs
