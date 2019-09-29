@@ -1,7 +1,3 @@
-#Requires .tar.gz!
-nodejs_version="node-v12.11.0.tar.gz"
-nodejs_uri="https://nodejs.org/dist/v12.11.0/"
-##
 systemd_unit_directory="/lib/systemd/system/"
 minecraft_server_jar_uri="https://launcher.mojang.com/v1/objects/3dc3d84a581f14691199cf6831b71ed1296a9fdf/server.jar"
 minecraft_server_ram_min="2G"
