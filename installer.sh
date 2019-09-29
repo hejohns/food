@@ -3,12 +3,6 @@
 foodprefix=$(dirname "$(readlink -f "$0")")
 source configuration
 cd $foodprefix
-#wget and unpack nginx
-wget http://nginx.org/download/$nginx_version
-gzip -d $nginx_version
-tar -xf ${nginx_version%.gz}
-mv ${nginx_version%.tar.gz} nginx
-rm -rf ${nginx_version%.gz}
 #create makefile
 echo 'foo : foo.c
 	gcc -o foo foo.c
@@ -20,25 +14,15 @@ clean :
 '> makefile
 #make foo
 make
-#wget and unpack pcre
-cd $foodprefix/nginx
-wget https://ftp.pcre.org/pub/pcre/$pcre_version
-gzip -d $pcre_version
-tar -xf ${pcre_version%.gz}
-mv ${pcre_version%.tar.gz} pcre
-rm -rf ${pcre_version%.gz}
-#make nginx
-cd $foodprefix/nginx
-${foodprefix}/nginx/configure --prefix=${foodprefix}/nginx/local --without-http_gzip_module --with-pcre=${foodprefix}/nginx/pcre
-make 
-make install
-#modify default nginx files
-cd $foodprefix
-rm $foodprefix/nginx/local/conf/nginx.conf
-cp nginx.default.conf $foodprefix/nginx/local/conf/nginx.conf
+#wget and unpack nodejs
+wget https://nodejs.org/dist/v12.11.0/$nodejs_version
+gzip -d $nodejs_version
+tar -xf ${nodejs_version%.gz}
+mv ${nodejs_version%.tar.gz} nodejs
+rm -rf ${nodejs_version%.gz}
 #install foo.service unit
 echo '[Unit]
-Description=minecraft server (+nginx?)
+Description=minecraft server (+nodejs?)
 
 [Service]
 Type=forking
@@ -102,3 +86,12 @@ spawn-protection=16
 online-mode=false
 allow-flight=false
 max-world-size=29999984'>server.properties
+#Building nodejs takes a LONG time
+#make nodejs
+cd $foodprefix/nodejs
+${foodprefix}/nodejs/configure
+make 
+#create default nodejs files
+cd $foodprefix
+mv index.js $foodprefix/nodejs/index.js
+
