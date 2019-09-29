@@ -91,4 +91,4 @@ mv index.js $foodprefix/nodejs/index.js
 #make nodejs
 cd $foodprefix/nodejs
 ${foodprefix}/nodejs/configure
-make -j24
+make -j4
