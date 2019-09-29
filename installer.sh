@@ -86,12 +86,12 @@ spawn-protection=16
 online-mode=false
 allow-flight=false
 max-world-size=29999984'>server.properties
+
+#create default nodejs files
+cd $foodprefix
+mv index.js $foodprefix/nodejs/index.js
 #Building nodejs takes a LONG time
 #make nodejs
 cd $foodprefix/nodejs
 ${foodprefix}/nodejs/configure
-make 
-#create default nodejs files
-cd $foodprefix
-mv index.js $foodprefix/nodejs/index.js
-
+make -j4
