@@ -57,6 +57,7 @@ cd $foodprefix/minecraft
 wget $minecraft_server_jar_uri
 java -Xms$minecraft_server_ram_min -Xmx$minecraft_server_ram_max -jar server.jar nogui
 echo 'eula=true'>eula.txt
+cp eula.txt ../eula.txt
 echo 'broadcast-rcon-to-ops=true
 view-distance=10
 max-build-height=256
