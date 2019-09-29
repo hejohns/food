@@ -1,3 +1,8 @@
+/* Requires:
+	g++
+	java runtime environment 
+	bash
+*/
 /* Installation:
 	git clone <https://> OR wget <.zip>
 	cd ./food
