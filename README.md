@@ -3,6 +3,7 @@ Requires:
 	java runtime environment 
 	make
 	bash
+	python2.7
 
 Installation:
 	git clone <https://> OR wget <.zip>
