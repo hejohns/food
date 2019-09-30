@@ -56,8 +56,9 @@ prevent-proxy-connections=false
 generator-settings=
 resource-pack=
 level-name=world
-rcon.password=$rcon_password
-player-idle-timeout=0
+rcon.password='$rcon_password
+
+'player-idle-timeout=0
 motd=food is running
 query.port=25565
 force-gamemode=false
