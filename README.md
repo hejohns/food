@@ -1,6 +1,6 @@
 **Description**:
 
-foo daemon just for fun. Started as messing around with systemd services. Turned into minecraft server installer. Hoping to add rcon capability tied in with nodejs. Current goal: write the rcon api based off of https://github.com/Tiiffi/mcrcon in order to learn sockets. After, replace nodejs with a simple c http server?
+foo daemon just for fun. Started as messing around with systemd services. Combined with messing around with forks/exec. Turned into minecraft server installer. Hoping to add rcon capability tied in with nodejs. Current goal: write the rcon api based off of https://github.com/Tiiffi/mcrcon in order to learn sockets. After, replace nodejs with a simple c http server?
 	
 **Requires**:
 
