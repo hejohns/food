@@ -5,9 +5,9 @@ source configuration
 cd $foodprefix
 #create makefile
 echo 'foo : foo.c
-	gcc -o foo foo.c
+	gcc -O2 -o foo foo.c
 string_length : string_length.c
-	gcc -o string_length string_length.c
+	gcc -O2 -o string_length string_length.c
 
 clean : 
 	rm foo string_length
