@@ -25,12 +25,13 @@ return 0;
 #define PRINTF //printf
 #endif
 
-typedef struct charArray{
+typedef struct darray_{
 	char* pointer;
 	size_t size;
-}darray;
+	void (*resize)(struct darray_*, int);
+} darray;
 
-void initializeDarray(darray* x);
+void darrayResize(darray* x, int newSize);
 
 void initializeDarray(darray* x){
 	x->pointer = malloc(1);
@@ -44,11 +45,10 @@ void initializeDarray(darray* x){
 	{
 		PRINTF("initializeDarray success: %ld\n", (long int)x->pointer);
 	}
+	x->resize = &darrayResize;
 }
 
-void reallocDarray(darray* x, int newSize);
-
-void reallocDarray(darray* x, int newSize){
+void darrayResize(darray* x, int newSize){
 	char* tmp = realloc(x->pointer, newSize);
 	x->size = newSize;
 	if (tmp == NULL){
@@ -56,7 +56,7 @@ void reallocDarray(darray* x, int newSize){
 		exit(1);
 	}
 	else{
-		PRINTF("reallocDarray success: %ld-%ld\n", (long int)x->pointer, x->size);
+		PRINTF("darrayResize success: %ld-%ld\n", (long int)x->pointer, x->size);
 		x->pointer = tmp;
 	}
 }
@@ -96,33 +96,33 @@ int main(int argc, char **argv)
 		else if (forkreturn2 == 0)
 		{
 			//read server.jar min/max ram
-			darray minecraft_server_ram_min;
-			darray minecraft_server_ram_max;
-			darray* ramMin = &minecraft_server_ram_min;
-			darray* ramMax = &minecraft_server_ram_max;
+			darray ramMin_, ramMax_;
+			darray* ramMin = &ramMin_;
+			darray* ramMax = &ramMax_;
 			initializeDarray(ramMin);
 			initializeDarray(ramMax);
 			PRINTF("$10: %ld\n", (long int)ramMin->size);
+			//yes, it's generally a terrible idea to realloc every byte, but writing it this way is easier to read and less lines. 
+			//theres not enough of a performance decrease in this context to sacrifice readability
 			for(int i=0; argv[2][i] != (char) 0; i++)
 			{
 				ramMin->pointer[i] = argv[2][i];
-				reallocDarray(ramMin, (int)ramMin->size + 1);
+				ramMin->resize(ramMin, (int)ramMin->size + 1);
 			}
 			PRINTF("$11: %s\n", ramMin->pointer);
 			for(int i=0; argv[3][i] != (char) 0; i++)
 			{
 				ramMax->pointer[i] = argv[3][i];
-				reallocDarray(ramMax, (int)ramMax->size + 1);
+				ramMax->resize(ramMax, (int)ramMax->size + 1);
 			}
 			PRINTF("$12: %s\n", ramMax->pointer);
-			darray Xms_min;
-			darray Xmx_max;
-			darray* xms = &Xms_min;
-			darray* xmx = &Xmx_max;
+			darray xms_, xmx_;
+			darray* xms = &xms_;
+			darray* xmx = &xmx_;
 			initializeDarray(xms);
 			initializeDarray(xmx);
-			reallocDarray(xms, 4+ramMin->size);
-			reallocDarray(xmx, 4+ramMax->size);
+			xms->resize(xms, 4+ramMin->size);
+			xmx->resize(xmx, 4+ramMax->size);
 			PRINTF("$14: %ld-%s-%ld\n", (long int)xms->pointer, xms->pointer, xms->size);
 			PRINTF("$15: %ld-%s-%ld\n", (long int)xmx->pointer, xms->pointer, xmx->size);
 			PRINTF("$16: %ld-%s-%ld\n", (long int)ramMin->pointer, ramMin->pointer, ramMin->size);
