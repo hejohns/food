@@ -1,4 +1,6 @@
 systemd_unit_directory="/lib/systemd/system/"
+nice=-10
+user=
 minecraft_server_jar_uri="https://launcher.mojang.com/v1/objects/3dc3d84a581f14691199cf6831b71ed1296a9fdf/server.jar"
 minecraft_server_ram_min="2G"
 minecraft_server_ram_max="4G"

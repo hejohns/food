@@ -24,7 +24,8 @@ Description=minecraft server (+nodejs?)
 [Service]
 Type=forking
 ExecStart='$foodprefix'/foo '$foodprefix' '$minecraft_server_ram_min' '$minecraft_server_ram_max'
-Nice=0
+Nice='$nice'
+User='$user'
 
 [Install]
 WantedBy=multi-user.target' > food.service
