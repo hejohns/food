@@ -142,9 +142,9 @@ int main(int argc, char **argv)
 		waitpid(forkreturn1, NULL, WNOHANG);
 		waitpid(forkreturn2, NULL, WNOHANG);
 		waitpid(forkreturn3, NULL, WNOHANG);
-		return 0;
+		return 2;
 	    }
 	}
     }
-    return 1;	
+    return 3;	
 }
