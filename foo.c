@@ -115,13 +115,14 @@ int main(int argc, char **argv)
 	    strcpy(foodprefix_minecraft, argv[1]);
 	    strcat(foodprefix_minecraft, "/minecraft");
 	    foodprefix_minecraft[strlen(foodprefix_minecraft)] = '\0';
-	    chdir(foodprefix_minecraft);
+	    if(chdir(foodprefix_minecraft)){
+		    strerror(errno);
+	    }
 	    execl("/usr/bin/java", "/usr/bin/java", "-server", xms->pointer, xmx->pointer, "-jar", path_to_minecraft_server_jar, "nogui", (char *)0);
 	}
 	else
 	{
 	    //fork third child
-	    //block parent with infinite loop, thus preventing orphaning and allowing systemd to track children
 	    int forkreturn3 = fork();
 	    if (forkreturn3 < 0)
 	    {
@@ -142,9 +143,10 @@ int main(int argc, char **argv)
 		waitpid(forkreturn1, NULL, WNOHANG);
 		waitpid(forkreturn2, NULL, WNOHANG);
 		waitpid(forkreturn3, NULL, WNOHANG);
-		return 2;
+		//return 0 so systemd is happy
+		return 0;
 	    }
 	}
     }
-    return 3;	
+    return 2;	
 }
